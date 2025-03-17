@@ -1,0 +1,1 @@
+/home/marianny-fidelis/StudioProjects/primeiro_app_flutter/build/app/intermediates/cxx/Debug/1g2z523i/obj/x86_64
