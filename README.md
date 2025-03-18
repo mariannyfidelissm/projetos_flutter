@@ -1,16 +1,14 @@
-# primeiro_app_flutter
+# Projetos Básicos feitos com Flutter
 
-A new Flutter project.
+Nesse espaço serão colocados alguns exemplos de projetos feitos em Flutter para auxílio na disciplina de Dispositivos móveis.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Dentro da pasta lib terá uma lista de projetos simples com seus respectivos README.md.
 
-A few resources to get you started if this is your first Flutter project:
+Cada projeto explora conceitos iniciais do Flutter que podem ser utilizados para revisão e estudo.
+
+Os projetos são compilados de cursos realizados, projetos POC desenvolvidos e de alguns codelabs do próprio Google:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
