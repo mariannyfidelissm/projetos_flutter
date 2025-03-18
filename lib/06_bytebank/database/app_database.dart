@@ -8,16 +8,20 @@ Future<Database> createDatabase() {
     return openDatabase(path, onCreate: (db, version) {
       db.execute(
           "CREATE TABLE contacts(id INTEGER PRIMARY KEY, name TEXT, account_number INTEGER)");
-    }, version: 1);
+    }, version: 1,
+    //onDowngrade: onDatabaseDowngradeDelete
+    );
   });
 }
 Future<int> save(Contact contact){
-   return createDatabase().then((db){
+   return createDatabase().then((db) async {
      final Map<String, dynamic> contactMap = {};
-     contactMap["id"] = contact.id;
+
      contactMap["name"] = contact.name;
      contactMap["account_number"] = contact.accountNumber;
-     return db.insert("contacts", contactMap);
+     int id = await db.insert("contacts", contactMap);
+     contactMap["id"] = id;
+     return id;
    });
 }
 

@@ -5,16 +5,17 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Dashboard'),
-      ),
+      appBar: AppBar(title: Text('Dashboard')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Image.asset('assets/images/bytebank_logo.png',width: MediaQuery.of(context).size.width*0.9,),
+            child: Image.asset(
+              'assets/images/bytebank_logo.png',
+              width: MediaQuery.of(context).size.width * 0.9,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
