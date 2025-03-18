@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:primeiro_app_flutter/06_bytebank/screens/dashboard.dart';
 
 class BytebankApp extends StatelessWidget {
+  const BytebankApp({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

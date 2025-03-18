@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:primeiro_app_flutter/06_bytebank/database/app_database.dart';
+import 'package:primeiro_app_flutter/06_bytebank/database/dao/contact_dao.dart';
 import '../models/contact.dart';
 import 'contact_form.dart';
 
-class ContactsList extends StatelessWidget {
+class ContactsList extends StatefulWidget {
+
+  ContactsList({super.key});
+
+  @override
+  State<ContactsList> createState() => _ContactsListState();
+}
+
+class _ContactsListState extends State<ContactsList> {
   List<Contact> contacts = [];
+
+  final ContactDao _dao = ContactDao();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +24,7 @@ class ContactsList extends StatelessWidget {
       ),
       body: FutureBuilder<List<Contact>>(
           initialData: [],
-          future:findAll(),
+          future:_dao.findAll(),
            //   Future.delayed(Duration(seconds: 2)).then((value) => findAll()),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
@@ -62,7 +72,7 @@ class ContactsList extends StatelessWidget {
 class _ContactItem extends StatelessWidget {
   final Contact contact;
 
-  _ContactItem(this.contact);
+  const _ContactItem(this.contact);
 
   @override
   Widget build(BuildContext context) {
