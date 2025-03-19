@@ -6,8 +6,7 @@ import '01_banco_douro/login_page.dart';
 import '02_app_cinetopia/app/app.dart';
 import '03_marybank/bank.dart';
 import '04_bytebank/bytebank_app.dart';
-import '05_my_todolist/app_todo_list.dart';
-import '07_todo_list_gamification/todolist_gamification.dart';
+import '05_my_todo_list_/todolist_gamification.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +15,7 @@ void main() {
   //runApp(const BancoDouroApp());
   //runApp(const CinetopiaApp());
   //runApp(MariBankApp());
-  //runApp(const AppTodoList());
   //runApp(BytebankApp());
   runApp(const TodoListGamification());
+
 }

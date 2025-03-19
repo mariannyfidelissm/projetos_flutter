@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:primeiro_app_flutter/07_todo_list_gamification/data/task_dao.dart';
 import '../components/task.dart';
-import '../data/task_inherited.dart';
+import '../data/task_dao.dart';
 import 'form_screen.dart';
 
 class InitialScreen extends StatefulWidget {
-  const InitialScreen({Key? key}) : super(key: key);
+  const InitialScreen({super.key});
 
   @override
   State<InitialScreen> createState() => _InitialScreenState();
@@ -15,7 +14,17 @@ class _InitialScreenState extends State<InitialScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: Container(), title: const Text('Tarefas')),
+      appBar: AppBar(
+        leading: Container(),
+        title: const Text('Tarefas'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                setState(() {});
+              },
+              icon: Icon(Icons.refresh))
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.only(top: 8, bottom: 70),
         child: FutureBuilder<List<Task>>(
@@ -51,7 +60,8 @@ class _InitialScreenState extends State<InitialScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 38.0),
                             child: Text(
-                              'Não há nenhuma tarefa cadastrada',textAlign: TextAlign.center,
+                              'Não há nenhuma tarefa cadastrada',
+                              textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 28),
                             ),
                           )
@@ -61,7 +71,8 @@ class _InitialScreenState extends State<InitialScreen> {
                   }
                   return Text('Erro ao carregar tarefas ');
                   break;
-              }return Text('Erro desconhecido');
+              }
+              return Text('Erro desconhecido');
             }),
       ),
       floatingActionButton: FloatingActionButton(
@@ -73,7 +84,7 @@ class _InitialScreenState extends State<InitialScreen> {
                 taskContext: context,
               ),
             ),
-          );
+          ).then((value) => setState(() {}));
         },
         child: const Icon(Icons.add),
       ),
