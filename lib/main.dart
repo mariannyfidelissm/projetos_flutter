@@ -7,6 +7,7 @@ import '02_app_cinetopia/app/app.dart';
 import '03_marybank/bank.dart';
 import '04_bytebank/bytebank_app.dart';
 import '05_my_todolist/app_todo_list.dart';
+import '07_todo_list_gamification/todolist_gamification.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,5 +17,6 @@ void main() {
   //runApp(const CinetopiaApp());
   //runApp(MariBankApp());
   //runApp(const AppTodoList());
-  runApp(BytebankApp());
+  //runApp(BytebankApp());
+  runApp(const TodoListGamification());
 }
