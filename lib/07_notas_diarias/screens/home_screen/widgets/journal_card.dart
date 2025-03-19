@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webapi_first_course/helpers/weekday.dart';
-import 'package:flutter_webapi_first_course/models/journal.dart';
+import '../../../helpers/weekday.dart';
+import '../../../models/journal.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webapi_first_course/database/database.dart';
-import 'package:flutter_webapi_first_course/screens/home_screen/widgets/home_screen_list.dart';
-
 import '../../models/journal.dart';
+import '../../database/database.dart';
+import 'widgets/home_screen_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
