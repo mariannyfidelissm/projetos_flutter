@@ -2,20 +2,44 @@
   "learnhttp": [
     {
       "content": "Olá flutter!"
+    }
+  ],
+  "journals": [
+    {
+      "id": "621a2265-8b8b-4397-a0a5-6787ea9c7d4c",
+      "content": "Vazio",
+      "created_at": "2025-03-19 18:23:56.157207",
+      "updated_at": "2025-03-19 18:23:56.157208"
     },
     {
-      "content": "Olá NodeJs!"
+      "id": "2a051966-2a46-4257-b57e-166450b1314f",
+      "content": "Vazio",
+      "created_at": "2025-03-19 18:30:55.699049",
+      "updated_at": "2025-03-19 18:30:55.699050"
     },
     {
-      "content": "Olá JSON-Server!"
+      "id": "3353b74d-7a64-4805-9692-820ca6e22212",
+      "content": "Estudando Flutter para PDM",
+      "created_at": "2025-03-11 18:30:56.514146",
+      "updated_at": "2025-03-11 18:30:56.514146"
     },
     {
-      "id": "ce3f",
-      "content": "Ola flutter"
+      "id": "3353b74d-7a64-4805-9692-820ca6e22212",
+      "content": "Estudando Flutter pra ASA",
+      "created_at": "2025-03-11 18:30:56.514146",
+      "updated_at": "2025-03-11 18:30:56.514146"
     },
     {
-      "id": "f836",
-      "content": "Ola flutter"
+      "id": "3353b74d-7a64-4805-9692-820ca6e22212",
+      "content": "Estudando Flutter pra ASA",
+      "created_at": "2025-03-11 18:30:56.514146",
+      "updated_at": "2025-03-11 18:30:56.514146"
+    },
+    {
+      "id": "c830a8ec-db75-43c2-8d8d-76b3b620ccd4",
+      "content": "Consulta do filho",
+      "created_at": "2025-03-14 18:30:56.514146",
+      "updated_at": "2025-03-14 18:30:56.514146"
     }
   ]
 }
