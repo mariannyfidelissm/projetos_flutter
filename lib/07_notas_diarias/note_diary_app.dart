@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'screens/add_journal_screen/add_journal_screen.dart';
 
 class NoteDiaryApp extends StatelessWidget {
-  const NoteDiaryApp({Key? key}) : super(key: key);
+  const NoteDiaryApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

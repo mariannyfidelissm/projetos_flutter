@@ -30,4 +30,20 @@ class JournalService {
     http.Response response = await client.get(Uri.parse(getURI()));
     print(response.body);
   }
+
+  Future<List<Journal>> getAll() async {
+    http.Response response = await client.get(Uri.parse(getURI()));
+
+    if(response.statusCode != 200){
+      throw Exception("Erro ao buscar notas diárias");
+    }
+
+    List<Journal> journals = [];
+    List<dynamic> jsonJournals = json.decode(response.body);
+
+    for(var jsonMap in jsonJournals){
+      journals.add (Journal.fromMap(jsonMap));
+    }
+    return journals;
+  }
 }

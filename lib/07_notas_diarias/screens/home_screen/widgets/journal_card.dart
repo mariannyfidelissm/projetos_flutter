@@ -104,6 +104,11 @@ class JournalCard extends StatelessWidget {
             id: Uuid().v4(),
             content: "",
             createdAt: showedDate,
-            updatedAt: showedDate));
+            updatedAt: showedDate)
+    ).then((value){
+      if(value != null && value == true){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Anotação salva com sucesso!")));
+      }
+    });
   }
 }
