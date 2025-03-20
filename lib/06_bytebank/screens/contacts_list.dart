@@ -5,7 +5,7 @@ import 'contact_form.dart';
 
 class ContactsList extends StatefulWidget {
 
-  ContactsList({super.key});
+  const ContactsList({super.key});
 
   @override
   State<ContactsList> createState() => _ContactsListState();

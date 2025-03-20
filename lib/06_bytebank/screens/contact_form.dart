@@ -3,7 +3,7 @@ import '../database/dao/contact_dao.dart';
 import '../models/contact.dart';
 
 class ContactForm extends StatefulWidget {
-  const ContactForm({super.key});
+  ContactForm({super.key});
 
   @override
   _ContactFormState createState() => _ContactFormState();
