@@ -3,7 +3,7 @@ import '../components/task.dart';
 import '../data/task_dao.dart';
 
 class FormScreen extends StatefulWidget {
-  const FormScreen({Key? key, required this.taskContext}) : super(key: key);
+  const FormScreen({super.key, required this.taskContext});
 
   final BuildContext taskContext;
 

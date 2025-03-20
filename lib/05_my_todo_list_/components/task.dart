@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'difficulty.dart';
 
@@ -88,7 +90,7 @@ class _TaskState extends State<Task> {
                       width: 52,
                       child: ElevatedButton(
                           onPressed: () {
-                            print(widget.nivel);
+                            log(widget.nivel.toString());
                             setState(() {
                               widget.nivel++;
                             });
@@ -115,13 +117,13 @@ class _TaskState extends State<Task> {
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: SizedBox(
+                      width: 200,
                       child: LinearProgressIndicator(
                         color: Colors.white,
                         value: (widget.dificuldade > 0)
                             ? (widget.nivel / widget.dificuldade) / 10
                             : 1,
                       ),
-                      width: 200,
                     ),
                   ),
                   Padding(
