@@ -23,6 +23,7 @@ void main() {
   {
     runApp(const NoteDiaryApp());
     JournalService journalService = JournalService();
-    journalService.register(Journal.empty());
+    //journalService.register(Journal.empty());
+    journalService.getAll();
   }
 }
