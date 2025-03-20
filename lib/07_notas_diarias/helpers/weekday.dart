@@ -1,10 +1,11 @@
 /// Gera dia da semana em português
 class WeekDay {
-  int weekday;
+  DateTime date;
   late String short;
   late String long;
 
-  WeekDay(this.weekday) {
+  WeekDay(this.date) {
+    int weekday = date.weekday;
     switch (weekday) {
       case 7:
         short = "dom";
