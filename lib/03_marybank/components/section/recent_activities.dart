@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '/03_marybank/components/box_dard.dart';
 import '/03_marybank/components/color_dot.dart';
-import '/03_marybank/components/content_division.dart';
 import '/03_marybank/themes/theme_colors.dart';
+import '/03_marybank/components/content_division.dart';
 
 class RecentActivities extends StatelessWidget {
   const RecentActivities({super.key});
@@ -17,7 +17,7 @@ class RecentActivities extends StatelessWidget {
 }
 
 class _RecentActivityContent extends StatelessWidget {
-  const _RecentActivityContent({super.key});
+  const _RecentActivityContent();
 
   @override
   Widget build(BuildContext context) {
@@ -86,11 +86,12 @@ class _RecentActivityContent extends StatelessWidget {
         Text(
             'Esse mês você gastou R\$2000.00 com jogos. Tente baixar esses custos !'),
         TextButton(
-            onPressed: () {},
-            child: Text(
-              'Diga-me como !',
-              style: TextStyle(fontSize: 16),
-            ))
+          onPressed: () {},
+          child: Text(
+            'Diga-me como !',
+            style: TextStyle(fontSize: 16),
+          ),
+        )
       ],
     );
   }
