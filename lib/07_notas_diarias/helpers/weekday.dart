@@ -37,4 +37,9 @@ class WeekDay {
         break;
     }
   }
+  @override
+  String toString() {
+
+    return "${long.toLowerCase()}, ${date.day} | ${date.month} | ${date.year}";
+  }
 }

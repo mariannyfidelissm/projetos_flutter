@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
-import '../../../helpers/weekday.dart';
 import '../../../models/journal.dart';
+import '../../../helpers/weekday.dart';
+import '../../../service/journal_service.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;
@@ -18,7 +20,9 @@ class JournalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (journal != null) {
       return InkWell(
-        onTap: () {},
+        onTap: () {
+          callAddJournalScreen(context, journal: journal);
+        },
         child: Container(
           height: 115,
           margin: const EdgeInsets.all(8),
@@ -60,7 +64,7 @@ class JournalCard extends StatelessWidget {
                       ),
                     ),
                     padding: const EdgeInsets.all(8),
-                    child: Text(WeekDay(journal!.createdAt.weekday).short),
+                    child: Text(WeekDay(journal!.createdAt).short),
                   ),
                 ],
               ),
@@ -79,6 +83,14 @@ class JournalCard extends StatelessWidget {
                   ),
                 ),
               ),
+              IconButton(
+                  onPressed: () {
+                    removeJournal(context);
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ))
             ],
           ),
         ),
@@ -92,7 +104,7 @@ class JournalCard extends StatelessWidget {
           height: 115,
           alignment: Alignment.center,
           child: Text(
-            "${WeekDay(showedDate.weekday).short} - ${showedDate.day}",
+            "${WeekDay(showedDate).short} - ${showedDate.day}",
             style: const TextStyle(fontSize: 12),
             textAlign: TextAlign.center,
           ),
@@ -101,15 +113,25 @@ class JournalCard extends StatelessWidget {
     }
   }
 
-  callAddJournalScreen(BuildContext context) {
+  callAddJournalScreen(BuildContext context, {Journal? journal}) {
     //Logger().w("Cliquei em um journal card !");
-    Navigator.pushNamed(context, "add-journal",
-            arguments: Journal(
-                id: Uuid().v4(),
-                content: "",
-                createdAt: showedDate,
-                updatedAt: showedDate))
-        .then((value) {
+    Map<String, dynamic> map = {};
+
+    Journal? innerJournal = Journal(
+        id: Uuid().v4(),
+        content: "",
+        createdAt: showedDate,
+        updatedAt: showedDate);
+    if (journal != null) {
+      innerJournal = journal;
+      map["isEditing"] = false;
+    } else {
+      map["isEditing"] = true;
+    }
+
+    map["journal"] = innerJournal;
+
+    Navigator.pushNamed(context, "add-journal", arguments: map).then((value) {
       refreshFunction();
       if (value != null && value == true) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -119,5 +141,20 @@ class JournalCard extends StatelessWidget {
             const SnackBar(content: Text("Falha ao registrar a anotação!")));
       }
     });
+  }
+
+  removeJournal(BuildContext context) {
+    JournalService service = JournalService();
+
+    if (journal != null) {
+      service.delete(journal!.id).then((value) {
+        if (value) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Anotação removida com sucesso!")));
+          refreshFunction();
+        }
+
+      });
+    }
   }
 }
