@@ -7,8 +7,12 @@ import '../../../models/journal.dart';
 class JournalCard extends StatelessWidget {
   final Journal? journal;
   final DateTime showedDate;
-  const JournalCard({Key? key, this.journal, required this.showedDate})
-      : super(key: key);
+  final Function refreshFunction;
+  const JournalCard(
+      {super.key,
+      this.journal,
+      required this.showedDate,
+      required this.refreshFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -100,14 +104,19 @@ class JournalCard extends StatelessWidget {
   callAddJournalScreen(BuildContext context) {
     //Logger().w("Cliquei em um journal card !");
     Navigator.pushNamed(context, "add-journal",
-        arguments: Journal(
-            id: Uuid().v4(),
-            content: "",
-            createdAt: showedDate,
-            updatedAt: showedDate)
-    ).then((value){
-      if(value != null && value == true){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Anotação salva com sucesso!")));
+            arguments: Journal(
+                id: Uuid().v4(),
+                content: "",
+                createdAt: showedDate,
+                updatedAt: showedDate))
+        .then((value) {
+      refreshFunction();
+      if (value != null && value == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Anotação salva com sucesso!")));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Falha ao registrar a anotação!")));
       }
     });
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:primeiro_app_flutter/07_notas_diarias/service/journal_service.dart';
 import '../../models/journal.dart';
 import '../../database/database.dart';
 import 'widgets/home_screen_list.dart';
@@ -22,6 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final ScrollController _listScrollController = ScrollController();
 
+  JournalService service = JournalService();
+
   @override
   void initState() {
     refresh();
@@ -32,10 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Título basado no dia atual
+        // Título baseado no dia atual
         title: Text(
           "${currentDay.day}  |  ${currentDay.month}  |  ${currentDay.year}",
         ),
+        actions: [
+          IconButton(onPressed: () => refresh(), icon: Icon(Icons.refresh))
+        ],
       ),
       body: ListView(
         controller: _listScrollController,
@@ -43,14 +49,19 @@ class _HomeScreenState extends State<HomeScreen> {
           windowPage: windowPage,
           currentDay: currentDay,
           database: database,
+          refreshFunction: refresh,
         ),
       ),
     );
   }
 
-  void refresh() {
+  void refresh() async {
+    List<Journal> listJournals = await service.getAll();
     setState(() {
-      database = generateRandomDatabase(maxGap: windowPage, amount: 3);
+      database = {};
+      for (var journal in listJournals) {
+        database[journal.id] = journal;
+      }
     });
   }
 }

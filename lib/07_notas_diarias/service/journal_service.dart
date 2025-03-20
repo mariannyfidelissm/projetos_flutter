@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import '../models/journal.dart';
 import 'http_interceptors.dart';
 import 'package:http/http.dart' as http;
@@ -28,7 +29,7 @@ class JournalService {
 
   void get() async {
     http.Response response = await client.get(Uri.parse(getURI()));
-    print(response.body);
+    log(response.body);
   }
 
   Future<List<Journal>> getAll() async {
