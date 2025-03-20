@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 import '../../../models/journal.dart';
 import '../../../helpers/weekday.dart';
 import '../../../service/journal_service.dart';
+import '../../commom/confirmation_dialog.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;
@@ -147,14 +148,25 @@ class JournalCard extends StatelessWidget {
     JournalService service = JournalService();
 
     if (journal != null) {
-      service.delete(journal!.id).then((value) {
-        if (value) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Anotação removida com sucesso!")));
-          refreshFunction();
-        }
+      showConfirmationDialog(context,
+          content: "Você deseja realmente remover essa anotação ?",
+        affirmativeOption: "Remover ?").then((onValue){
+          if(onValue != null){
+            if(onValue == true){
+              service.delete(journal!.id).then((value) {
+                if (value) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Anotação removida com sucesso!")));
+                  refreshFunction();
+                }
+              });
+            }else{
 
+            }
+          }
       });
+
+
     }
   }
 }
