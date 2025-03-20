@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dashboard.dart';
-import 'search_movies.dart';
 import '../components/botao.dart';
+import 'dashboard.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
