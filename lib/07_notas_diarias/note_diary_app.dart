@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'models/journal.dart';
 import 'screens/home_screen/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'screens/login_screen/login_screen.dart';
 import 'screens/add_journal_screen/add_journal_screen.dart';
 
 class NoteDiaryApp extends StatelessWidget {
-  const NoteDiaryApp({super.key});
+  final bool isLogged;
+
+  const NoteDiaryApp({super.key, required this.isLogged});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,9 +27,10 @@ class NoteDiaryApp extends StatelessWidget {
           ),
           textTheme: GoogleFonts.bitterTextTheme(),
         ),
-        initialRoute: "home",
+        initialRoute: (isLogged) ? "home" : "login",
         routes: {
           "home": (context) => const HomeScreen(),
+          "login": (context) => LoginScreen(),
         },
         onGenerateRoute: (settings){
           if (settings.name == "add-journal") {
