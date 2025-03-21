@@ -5,25 +5,30 @@ class Journal {
   String content;
   DateTime createdAt;
   DateTime updatedAt;
+  int userId;
 
   Journal({
     required this.id,
     required this.content,
     required this.createdAt,
     required this.updatedAt,
+    required this.userId,
   });
 
-  Journal.empty()
+  Journal.empty({required int userId})
       : id = Uuid().v4(),
         content = "Vazio",
         createdAt = DateTime.now(),
-        updatedAt = DateTime.now();
+        updatedAt = DateTime.now(),
+        userId = userId
+  ;
 
   Journal.fromMap(Map<String, dynamic> mapa)
       : id = mapa["id"],
         content = mapa["content"],
         createdAt = DateTime.parse(mapa["created_at"]),
-        updatedAt = DateTime.parse(mapa["updated_at"]);
+        updatedAt = DateTime.parse(mapa["updated_at"]),
+        userId = mapa["userId"];
 
   Map<String, dynamic> toMap() {
     return {
@@ -31,11 +36,12 @@ class Journal {
       "content": content,
       "created_at": createdAt.toString(),
       "updated_at": updatedAt.toString(),
+      "userId": userId,
     };
   }
 
   @override
   String toString() {
-    return "$content \ncreated_at: $createdAt\nupdated_at:$updatedAt";
+    return "$content \ncreated_at: $createdAt\nupdated_at:$updatedAt\nuserId:$userId";
   }
 }
