@@ -39,9 +39,10 @@ dependencies:
   logger:
   auto_size_text:
   path:
-  sqflite:
   uuid:
   google_fonts:
+  sqflite:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
