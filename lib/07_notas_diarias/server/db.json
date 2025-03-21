@@ -1,8 +1,17 @@
 {
-  "learnhttp": [
+  "users": [],
+  "journals": [
     {
-      "content": "Olá flutter!"
+      "id": "60e6bc32-b575-4bdb-84f6-f79a2efff85d",
+      "content": "teste",
+      "created_at": "2025-03-10 14:54:49.774406",
+      "updated_at": "2025-03-10 14:54:49.774406"
+    },
+    {
+      "id": "dfd7016a-e02b-44ce-a888-57002e24e239",
+      "content": "exff",
+      "created_at": "2025-03-10 14:54:49.774406",
+      "updated_at": "2025-03-10 14:54:49.774406"
     }
-  ],
-  "journals": []
+  ]
 }
