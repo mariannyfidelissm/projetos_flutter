@@ -40,7 +40,6 @@ class JournalService {
     }
   }
 
-
   Future<bool> delete(String id) async {
     http.Response response = await client.delete(Uri.parse("${getURI()}$id"));
 
@@ -50,23 +49,45 @@ class JournalService {
       return false;
     }
   }
+
   void get() async {
     http.Response response = await client.get(Uri.parse(getURI()));
     log(response.body);
   }
 
-  Future<List<Journal>> getAll() async {
+  Future<List<Journal>> getAllOldVersion() async {
     http.Response response = await client.get(Uri.parse(getURI()));
 
-    if(response.statusCode != 200){
+    if (response.statusCode != 200) {
       throw Exception("Erro ao buscar notas diárias");
     }
 
     List<Journal> journals = [];
     List<dynamic> jsonJournals = json.decode(response.body);
 
-    for(var jsonMap in jsonJournals){
-      journals.add (Journal.fromMap(jsonMap));
+    for (var jsonMap in jsonJournals) {
+      journals.add(Journal.fromMap(jsonMap));
+    }
+    return journals;
+  }
+
+  Future<List<Journal>> getAll(
+      {required String id, required String accessToken}) async {
+    http.Response response = await client
+        .get(Uri.parse("${url}users/$id/journals"), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $accessToken"
+    });
+
+    if (response.statusCode != 200) {
+      throw Exception("Erro ao buscar notas diárias");
+    }
+
+    List<Journal> journals = [];
+    List<dynamic> jsonJournals = json.decode(response.body);
+
+    for (var jsonMap in jsonJournals) {
+      journals.add(Journal.fromMap(jsonMap));
     }
     return journals;
   }

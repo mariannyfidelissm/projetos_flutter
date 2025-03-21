@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:primeiro_app_flutter/07_notas_diarias/service/journal_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/journal.dart';
 import '../../database/database.dart';
 import 'widgets/home_screen_list.dart';
@@ -56,11 +57,24 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void refresh() async {
-    List<Journal> listJournals = await service.getAll();
-    setState(() {
-      database = {};
-      for (var journal in listJournals) {
-        database[journal.id] = journal;
+    SharedPreferences.getInstance().then((prefs) {
+      int? id = prefs.getInt("id")!;
+      String? email = prefs.getString("email")!;
+      String? accessToken = prefs.getString("accessToken")!;
+
+      if (id != null && email != null && accessToken != null) {
+        service
+            .getAll(id: id.toString(), accessToken: accessToken)
+            .then((List<Journal> listJournals) {
+          setState(() {
+            database = {};
+            for (var journal in listJournals) {
+              database[journal.id] = journal;
+            }
+          });
+        });
+      } else {
+        Navigator.pushReplacementNamed(context, "login");
       }
     });
   }
