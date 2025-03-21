@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:primeiro_app_flutter/07_notas_diarias/screens/commom/exception_dialog.dart';
 import 'package:primeiro_app_flutter/07_notas_diarias/service/journal_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../helpers/logout.dart';
 import '../../models/journal.dart';
 import '../../database/database.dart';
 import 'widgets/home_screen_list.dart';
@@ -26,6 +30,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   JournalService service = JournalService();
 
+  int? userId;
+
+  String? token;
+
   @override
   void initState() {
     refresh();
@@ -44,15 +52,45 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(onPressed: () => refresh(), icon: Icon(Icons.refresh))
         ],
       ),
-      body: ListView(
-        controller: _listScrollController,
-        children: generateListJournalCards(
-          windowPage: windowPage,
-          currentDay: currentDay,
-          database: database,
-          refreshFunction: refresh,
+      drawer: Drawer(
+        width: MediaQuery.of(context).size.width * 0.6,
+        child: ListView(
+          children: [
+            ListTile(
+              leading: Icon(Icons.book),
+              title: Text("Minhas notas"),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.app_settings_alt),
+              title: Text("Sobre o app"),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text("Sair"),
+              onTap: () {
+                logout(context);
+              },
+            )
+          ],
         ),
       ),
+      body: (userId != null && token != null)
+          ? ListView(
+              controller: _listScrollController,
+              children: generateListJournalCards(
+                windowPage: windowPage,
+                currentDay: currentDay,
+                database: database,
+                refreshFunction: refresh,
+                userId: userId!,
+                token: token!,
+              ),
+            )
+          : Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 
@@ -63,8 +101,12 @@ class _HomeScreenState extends State<HomeScreen> {
       String? accessToken = prefs.getString("accessToken")!;
 
       if (id != null && email != null && accessToken != null) {
+        setState(() {
+          userId = id;
+          token = accessToken;
+        });
         service
-            .getAll(id: id.toString(), accessToken: accessToken)
+            .getAll(id: id.toString(), accessToken: token!)
             .then((List<Journal> listJournals) {
           setState(() {
             database = {};
@@ -76,6 +118,19 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         Navigator.pushReplacementNamed(context, "login");
       }
-    });
+    }).catchError(
+      (error) {
+        logout(context);
+      },
+      test: (error) => error is TokenNotValidException,
+    ).catchError(
+      (error) {
+        showExceptionDialog(context, content: error.message);
+      },
+      test: (error) => error is HttpException,
+    );
+
   }
 }
+
+class TokenNotValidException implements Exception {}

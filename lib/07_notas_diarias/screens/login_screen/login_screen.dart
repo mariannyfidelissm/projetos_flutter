@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:primeiro_app_flutter/07_notas_diarias/screens/commom/confirmation_dialog.dart';
+import 'package:primeiro_app_flutter/07_notas_diarias/screens/commom/exception_dialog.dart';
 import 'package:primeiro_app_flutter/07_notas_diarias/service/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -75,36 +78,43 @@ class LoginScreen extends StatelessWidget {
     if (email.isNotEmpty && password.isNotEmpty) {
       //Navigator.pushNamed(context, "home");
 
-      try {
-        authService.login(email: email, password: password).then((resultLogin) {
+      authService.login(email: email, password: password).then(
+        (resultLogin) {
           if (resultLogin) {
             logger.i("Login realizado com sucesso !");
             logger.w("$email - $password");
             Navigator.pushReplacementNamed(context, "home");
           }
-        });
-      } on UserNotFindException {
-        logger.e("Usuário não encontrado");
-        showConfirmationDialog(
-          context,
-          content: "Deseja criar um novo usuário usando o email $email ?",
-          affirmativeOption: "CRIAR",
-        ).then((value) {
-          if (value != null && value == true) {
-            authService.register(email: email, password: password).then((resultRegister){
-              if(resultRegister){
-                logger.i("Registro realizado com sucesso !");
-                logger.w("$email - $password");
-                Navigator.pushReplacementNamed(context, "home");
-              }
-            });
-          }
-        });
-      } on InvalidPasswordException {
-        logger.e("Senha inválida");
-      } catch (e) {
-        logger.e(e);
-      }
+        },
+      ).catchError(
+        (error) {
+          var innerException = error as HttpException;
+          showExceptionDialog(context, content: innerException.message);
+        },
+        test: (error) => error is HttpException,
+      ).catchError(
+        (error) {
+          logger.e("Usuário não encontrado");
+          showConfirmationDialog(
+            context,
+            content: "Deseja criar um novo usuário usando o email $email ?",
+            affirmativeOption: "CRIAR",
+          ).then((value) {
+            if (value != null && value == true) {
+              authService
+                  .register(email: email, password: password)
+                  .then((resultRegister) {
+                if (resultRegister) {
+                  logger.i("Registro realizado com sucesso !");
+                  logger.w("$email - $password");
+                  Navigator.pushReplacementNamed(context, "home");
+                }
+              });
+            }
+          });
+        },
+        test: (error) => error is UserNotFindException,
+      );
     }
   }
 }

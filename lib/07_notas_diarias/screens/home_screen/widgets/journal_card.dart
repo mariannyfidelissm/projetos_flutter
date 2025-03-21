@@ -1,21 +1,29 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import '../../../helpers/logout.dart';
 import '../../../models/journal.dart';
 import '../../../helpers/weekday.dart';
 import '../../../service/journal_service.dart';
 import '../../commom/confirmation_dialog.dart';
+import '../../commom/exception_dialog.dart';
+import '../home_screen.dart';
 
 class JournalCard extends StatelessWidget {
   final Journal? journal;
   final DateTime showedDate;
   final Function refreshFunction;
+  final int userId;
+  final String token;
+
   const JournalCard(
       {super.key,
       this.journal,
       required this.showedDate,
-      required this.refreshFunction});
+      required this.refreshFunction,
+      required this.userId,
+      required this.token});
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +130,8 @@ class JournalCard extends StatelessWidget {
         id: Uuid().v4(),
         content: "",
         createdAt: showedDate,
-        updatedAt: showedDate);
+        updatedAt: showedDate,
+        userId: userId);
     if (journal != null) {
       innerJournal = journal;
       map["isEditing"] = false;
@@ -149,24 +158,31 @@ class JournalCard extends StatelessWidget {
 
     if (journal != null) {
       showConfirmationDialog(context,
-          content: "Você deseja realmente remover essa anotação ?",
-        affirmativeOption: "Remover ?").then((onValue){
-          if(onValue != null){
-            if(onValue == true){
-              service.delete(journal!.id).then((value) {
-                if (value) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Anotação removida com sucesso!")));
-                  refreshFunction();
-                }
-              });
-            }else{
-
-            }
-          }
+              content: "Você deseja realmente remover essa anotação ?",
+              affirmativeOption: "Remover ?")
+          .then((onValue) {
+        if (onValue != null) {
+          if (onValue == true) {
+            service.delete(id: journal!.id, accessToken: token).then((value) {
+              if (value) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Anotação removida com sucesso!")));
+                refreshFunction();
+              }
+            }).catchError(
+              (error) {
+                logout(context);
+              },
+              test: (error) => error is TokenNotValidException,
+            ).catchError(
+              (error) {
+                showExceptionDialog(context, content: error.message);
+              },
+              test: (error) => error is HttpException,
+            );
+          } else {}
+        }
       });
-
-
     }
   }
 }
