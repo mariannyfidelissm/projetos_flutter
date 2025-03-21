@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import '../models/journal.dart';
+import '../screens/home_screen/home_screen.dart';
 import 'http_interceptors.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/intercepted_client.dart';
@@ -16,37 +18,54 @@ class JournalService {
     return "$url$resource";
   }
 
-  Future<bool> register(Journal content) async {
+  Future<bool> register(Journal content, String accessToken) async {
     String jsonJournal = json.encode(content.toMap());
     http.Response response = await client.post(Uri.parse(getURI()),
-        headers: {'Content-Type': 'application/json'}, body: jsonJournal);
-    if (response.statusCode == 201) {
-      return true;
-    } else {
-      return false;
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": "Bearer $accessToken"
+        },
+        body: jsonJournal);
+    if (response.statusCode != 201) {
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     }
+    return true;
   }
 
-  Future<bool> edit(String id, Journal content) async {
+  Future<bool> edit(String id, Journal content, String accessToken) async {
     String jsonJournal = json.encode(content.toMap());
 
     http.Response response = await client.put(Uri.parse("${getURI()}$id"),
-        headers: {'Content-Type': 'application/json'}, body: jsonJournal);
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": "Bearer $accessToken"
+        },
+        body: jsonJournal);
 
-    if (response.statusCode == 200) {
-      return true;
+    if (response.statusCode != 200) {
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     } else {
-      return false;
+      return true;
     }
   }
 
-  Future<bool> delete(String id) async {
-    http.Response response = await client.delete(Uri.parse("${getURI()}$id"));
+  Future<bool> delete({required String id, required String accessToken}) async {
+    http.Response response = await client.delete(Uri.parse("${getURI()}$id"),
+        headers: {"Authorization": "Bearer $accessToken"});
 
     if (response.statusCode == 200) {
-      return true;
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     } else {
-      return false;
+      return true;
     }
   }
 
@@ -80,7 +99,10 @@ class JournalService {
     });
 
     if (response.statusCode != 200) {
-      throw Exception("Erro ao buscar notas diárias");
+      if (json.decode(response.body) == "jwt expired") {
+        throw TokenNotValidException();
+      }
+      throw HttpException(response.body);
     }
 
     List<Journal> journals = [];
