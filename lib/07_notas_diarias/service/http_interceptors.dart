@@ -13,7 +13,7 @@ class LoggingInterceptor implements InterceptorContract {
 
   @override
   FutureOr<BaseResponse> interceptResponse({required BaseResponse response}) {
-    logger.i("Resposta de: ${response.headers}\n${response.statusCode}\n");
+    logger.i("Resposta de: ${response.headers.keys}\n${response.statusCode}\n");
     return response;
   }
 
