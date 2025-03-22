@@ -52,7 +52,7 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
 class ItemTransferencia extends StatelessWidget {
   final Transferencia _transferencia;
 
-  ItemTransferencia(this._transferencia, {super.key});
+  const ItemTransferencia(this._transferencia, {super.key});
 
   @override
   Widget build(BuildContext context) {

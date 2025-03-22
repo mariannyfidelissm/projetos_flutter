@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../../app/models/movie.dart';
 
 class DetailsMovie extends StatelessWidget {
-  Movie movie;
+  final Movie movie;
 
-  DetailsMovie({super.key, required this.movie});
+  const DetailsMovie({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class DetailsMovie extends StatelessWidget {
                   color: Color(0xFF000000),
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
-                    image: NetworkImage("${movie.imageUrlWithPrefix}"),
+                    image: NetworkImage(movie.imageUrlWithPrefix),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -41,10 +41,10 @@ class DetailsMovie extends StatelessWidget {
               SizedBox(height: 30,),
               Text(movie.overview,style: TextStyle(fontSize: 14, color: Colors.white70)),
               SizedBox(height: 30,),
-            
+
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF4F3888FF),
+                  backgroundColor: const Color(0xFF4F3888FF),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
                   ),

@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:primeiro_app_flutter/06_bytebank/screens/dashboard.dart';
 
-import 'screens/transferencia/lista.dart';
-import 'package:flutter/material.dart';
-
 class BytebankApp extends StatelessWidget {
+  const BytebankApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

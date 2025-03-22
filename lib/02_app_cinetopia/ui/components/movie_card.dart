@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../app/models/movie.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class MovieCard extends StatelessWidget {
   final Movie movie;
@@ -34,7 +33,7 @@ class MovieCard extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
                 //textAlign: TextAlign.left,
-                "${movie.title}",
+                movie.title,
                 softWrap: true, // Permite quebrar o texto em várias linhas
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

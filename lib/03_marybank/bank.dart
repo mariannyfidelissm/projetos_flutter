@@ -9,7 +9,7 @@ class MariBankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: MyTheme,
+      theme: myTheme,
       home: HomePage(),
       title: "MariBank",
     );

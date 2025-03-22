@@ -35,7 +35,7 @@ class TaskDao {
 
   Map<String, dynamic> toMap(Task tarefa) {
     log('Convertendo to Map: ');
-    final Map<String, dynamic> mapaDeTarefas = Map();
+    final Map<String, dynamic> mapaDeTarefas = {};
     mapaDeTarefas[_name] = tarefa.nome;
     mapaDeTarefas[_difficulty] = tarefa.dificuldade;
     mapaDeTarefas[_image] = tarefa.foto;
@@ -53,7 +53,7 @@ class TaskDao {
   }
 
   List<Task> toList(List<Map<String, dynamic>> mapaDeTarefas) {
-    print('Convertendo to List:');
+    log('Convertendo to List:');
     final List<Task> tarefas = [];
     for (Map<String, dynamic> linha in mapaDeTarefas) {
       final Task tarefa = Task(
@@ -70,7 +70,7 @@ class TaskDao {
   Future<List<Task>> find(String nomeDaTarefa) async {
     log('Acessando find: ');
     final Database bancoDeDados = await getDatabase();
-    log('Procurando tarefa com o nome: ${nomeDaTarefa}');
+    log('Procurando tarefa com o nome: $nomeDaTarefa');
     final List<Map<String, dynamic>> result = await bancoDeDados
         .query(_tablename, where: '$_name = ?', whereArgs: [nomeDaTarefa]);
     log('Tarefa encontrada: ${toList(result)}');

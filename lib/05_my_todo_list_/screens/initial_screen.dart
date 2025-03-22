@@ -70,7 +70,6 @@ class _InitialScreenState extends State<InitialScreen> {
                     );
                   }
                   return Text('Erro ao carregar tarefas ');
-                  break;
               }
               return Text('Erro desconhecido');
             }),

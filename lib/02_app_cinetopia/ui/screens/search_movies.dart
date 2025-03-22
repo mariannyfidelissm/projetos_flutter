@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import '../../app/viewmodels/search_movies_viewmodel.dart';
-import '../components/movie_card.dart';
-import '../../app/services/search_movies_service.dart';
 import 'details_movie.dart';
+import 'package:flutter/material.dart';
+import '../components/movie_card.dart';
+import '../../app/viewmodels/search_movies_viewmodel.dart';
 
 class SearchMovies extends StatefulWidget {
-  SearchMovies({super.key});
+  const SearchMovies({super.key});
 
   @override
   State<SearchMovies> createState() => _SearchMoviesState();

@@ -1,20 +1,14 @@
+import 'dart:io';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
-
+import 'web_client.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'http_interceptors.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_interceptor/http/intercepted_client.dart';
-
 class AuthService {
-  static const String url = "http://192.168.1.15:3000/";
+  String url = WebClient.url;
+  http.Client client = WebClient().client;
   static const String resource = "login/";
-
-  http.Client client =
-      InterceptedClient.build(interceptors: [LoggingInterceptor()]);
-
   Future<bool> login({required String email, required String password}) async {
     http.Response response = await client.post(
       Uri.parse("$url$resource"),
@@ -30,9 +24,8 @@ class AuthService {
         case "Invalid password":
           throw InvalidPasswordException();
         default:
-          throw HttpException("${response.body}");
+          throw HttpException(response.body);
       }
-
     }
 
     saveUserInfos(response.body);
@@ -40,14 +33,15 @@ class AuthService {
     return true;
   }
 
-  Future<bool> register({required String email, required String password}) async {
+  Future<bool> register(
+      {required String email, required String password}) async {
     http.Response response = await client.post(
       Uri.parse("${url}register/"),
       body: {'email': email, 'password': password},
     );
 
     if (response.statusCode != 201) {
-      throw HttpException("${response.body}");
+      throw HttpException(response.body);
     }
 
     saveUserInfos(response.body);

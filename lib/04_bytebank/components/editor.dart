@@ -6,7 +6,7 @@ class Editor extends StatelessWidget {
   final String dica;
   final IconData icone;
 
-  Editor({
+  const Editor({super.key,
     required this.controlador,
     required this.rotulo,
     required this.dica,

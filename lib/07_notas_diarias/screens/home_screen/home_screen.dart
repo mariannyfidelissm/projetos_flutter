@@ -1,13 +1,11 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:primeiro_app_flutter/07_notas_diarias/screens/commom/exception_dialog.dart';
-import 'package:primeiro_app_flutter/07_notas_diarias/service/journal_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../helpers/logout.dart';
 import '../../models/journal.dart';
-import '../../database/database.dart';
+import 'package:flutter/material.dart';
 import 'widgets/home_screen_list.dart';
+import '../commom/exception_dialog.dart';
+import '../../service/journal_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

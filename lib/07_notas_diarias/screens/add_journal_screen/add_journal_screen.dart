@@ -69,7 +69,7 @@ class AddJournalScreen extends StatelessWidget {
                 showExceptionDialog(context, content: error.message);
               },
               test: (error) => error is HttpException,
-            );;
+            );
           }else{
             journalService.edit(journal.id, journal, token).then((value) {
               Navigator.pop(context, value);
@@ -83,7 +83,7 @@ class AddJournalScreen extends StatelessWidget {
                 showExceptionDialog(context, content: error.message);
               },
               test: (error) => error is HttpException,
-            );;
+            );
           }
         }
       }

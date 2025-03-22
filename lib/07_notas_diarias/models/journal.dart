@@ -15,13 +15,12 @@ class Journal {
     required this.userId,
   });
 
-  Journal.empty({required int userId})
+  Journal.empty({required int userI})
       : id = Uuid().v4(),
         content = "Vazio",
         createdAt = DateTime.now(),
         updatedAt = DateTime.now(),
-        userId = userId
-  ;
+        userId = userI;
 
   Journal.fromMap(Map<String, dynamic> mapa)
       : id = mapa["id"],

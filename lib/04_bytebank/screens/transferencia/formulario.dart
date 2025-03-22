@@ -13,6 +13,8 @@ const _dicaCampoNumeroConta = '0000';
 const _textoBotaoConfirmar = 'Confirmar';
 
 class FormularioTransferencia extends StatefulWidget {
+  const FormularioTransferencia({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return FormularioTransferenciaState();

@@ -42,9 +42,9 @@ class SearchForMovie implements SearchMoviesService {
   @override
   Future<List<Movie>> getMovies() async {
     try {
-      print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-      print(moviePrefixUrl + query + movieFilterSulfix);
-      print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      log(moviePrefixUrl + query + movieFilterSulfix);
+      log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
       final response = await http.get(
           Uri.parse(moviePrefixUrl + query + movieFilterSulfix),
           headers: request_headers);

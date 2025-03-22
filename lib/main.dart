@@ -27,7 +27,7 @@ void main() async {
       isLogged: isLogged,
     ));
 
-    JournalService journalService = JournalService();
+    //JournalService journalService = JournalService();
     //journalService.register(Journal.empty());
     //journalService.getAll();
   }

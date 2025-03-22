@@ -1,17 +1,25 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:logger/logger.dart';
+import 'package:flutter/material.dart';
 import 'package:primeiro_app_flutter/07_notas_diarias/screens/commom/confirmation_dialog.dart';
 import 'package:primeiro_app_flutter/07_notas_diarias/screens/commom/exception_dialog.dart';
 import 'package:primeiro_app_flutter/07_notas_diarias/service/auth_service.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   Logger logger = Logger();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passwordController = TextEditingController();
+
   AuthService authService = AuthService();
 
   @override
@@ -114,7 +122,10 @@ class LoginScreen extends StatelessWidget {
           });
         },
         test: (error) => error is UserNotFindException,
-      );
+      ).catchError((error){
+        logger.e("Timeout exception !");
+        showExceptionDialog(context, content: "O servidor demorou para responder! Tente mais tarde !");
+      }, test: (error)=> error is TimeoutException);
     }
   }
 }

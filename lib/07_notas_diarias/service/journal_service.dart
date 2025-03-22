@@ -1,18 +1,15 @@
+import 'dart:io';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
+import 'web_client.dart';
 import '../models/journal.dart';
-import '../screens/home_screen/home_screen.dart';
-import 'http_interceptors.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_interceptor/http/intercepted_client.dart';
+import '../screens/home_screen/home_screen.dart';
 
 class JournalService {
-  static const String url = "http://192.168.1.15:3000/";
+  String url = WebClient.url;
+  http.Client client = WebClient().client;
   static const String resource = "journals/";
-
-  http.Client client =
-      InterceptedClient.build(interceptors: [LoggingInterceptor()]);
 
   String getURI() {
     return "$url$resource";
@@ -35,8 +32,9 @@ class JournalService {
     return true;
   }
 
-  Future<bool> edit(String id, Journal content, String accessToken) async {
-    String jsonJournal = json.encode(content.toMap());
+  Future<bool> edit(String id, Journal journal, String accessToken) async {
+    journal.updatedAt = DateTime.now();
+    String jsonJournal = json.encode(journal.toMap());
 
     http.Response response = await client.put(Uri.parse("${getURI()}$id"),
         headers: {
