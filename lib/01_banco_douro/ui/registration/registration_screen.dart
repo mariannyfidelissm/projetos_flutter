@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'view_model/registration_viewmodel.dart';
 import 'widgets/form_field_widget.dart';
+import 'package:camera/camera.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -13,6 +15,8 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   String _selectedDocumentType = "CNH"; // Valor inicial do dropdown
+  CameraController? cameraController;
+  Logger logger = Logger();
 
   @override
   Widget build(BuildContext context) {
@@ -132,21 +136,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Column(
       spacing: 8,
       children: [
-        Container(
-          width: 150,
+        SizedBox(
           height: 200,
-          color: Colors.grey.shade200,
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 750),
-            child: (!isDocument && viewModel.imageSelfie != null)
-                ? Image.memory(viewModel.imageSelfie!)
-                : (isDocument && viewModel.imageDocument != null)
-                    ? Image.memory(viewModel.imageDocument!)
-                    : Icon(
-                        icon,
-                        size: 48,
-                        color: Colors.grey.shade600,
-                      ),
+            child: (cameraController != null && cameraController!.value.isInitialized)
+                ? CameraPreview(cameraController!)
+                : Container(
+                    width: 150,
+                    height: 200,
+                    color: Colors.grey.shade200,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 750),
+                      child: (!isDocument && viewModel.imageSelfie != null)
+                          ? Image.memory(viewModel.imageSelfie!)
+                          : (isDocument && viewModel.imageDocument != null)
+                              ? Image.memory(viewModel.imageDocument!)
+                              : Icon(
+                                  icon,
+                                  size: 48,
+                                  color: Colors.grey.shade600,
+                                ),
+                    ),
+                  ),
           ),
         ),
         Column(
@@ -169,10 +181,32 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     RegistrationViewModel viewModel, {
     bool isDocument = true,
   }) async {
+    List<CameraDescription> listCameras = await analyseCamerasAvailable();
+
+    cameraController = CameraController(listCameras[1], ResolutionPreset.medium,
+        enableAudio: false);
+
+    //Inicia a câmera
+    if (cameraController != null) {
+      await cameraController!.initialize();
+      setState(() {
+
+      });
+    } else {
+      logger.e("Erro ao inicializar a camera", time: DateTime.now());
+    }
+
+
     if (isDocument) {
       // TODO: Abrir câmera para fotografar documento
     } else {
       // TODO: Abrir câmera para fotografar selfie
     }
+  }
+
+  Future<List<CameraDescription>> analyseCamerasAvailable() async {
+    List<CameraDescription> cameras = await availableCameras();
+    print(cameras.toString().replaceAll(")", ")\n"));
+    return cameras;
   }
 }

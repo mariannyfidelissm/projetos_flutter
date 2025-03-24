@@ -44,6 +44,8 @@ dependencies:
   sqflite:
   shared_preferences:
   provider:
+  camera:
+  permission_handler: ^11.4.0
 
 dev_dependencies:
   flutter_test:
