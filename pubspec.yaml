@@ -43,6 +43,7 @@ dependencies:
   google_fonts:
   sqflite:
   shared_preferences:
+  provider:
 
 dev_dependencies:
   flutter_test:
