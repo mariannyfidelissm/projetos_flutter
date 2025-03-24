@@ -71,6 +71,10 @@ flutter:
     - assets/images/bancodouro/icon_add_account.png
     - assets/images/bancodouro/logo.png
     - assets/images/bancodouro/stars.png
+    - assets/images/bancodouro/credit_card.png
+    - assets/images/bancodouro/lotties/
+    - assets/images/bancodouro/guides/
+
     - assets/images/cinetopia/logo.png
     - assets/images/cinetopia/movie.png
     - assets/images/cinetopia/popular.png
