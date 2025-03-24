@@ -52,12 +52,20 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(height: 32,),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, "home");
+                        },
                         style: ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll(Color(0xFFFFA902))
+                            backgroundColor: WidgetStatePropertyAll(Colors.orange)//AppColors.orange,)
                         ),
                         child: Text("Entrar",style: TextStyle(color: Colors.black)),
-                      )
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, "registration");
+                        },
+                        child: const Text("Sem conta? Registre-se agora!"),
+                      ),
                     ],
                   ),
                 ],

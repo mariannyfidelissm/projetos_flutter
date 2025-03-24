@@ -16,21 +16,22 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   //runApp(BytebankApp());
-  //runApp(const BancoDouroApp());
+  runApp(const BancoDouroApp());
   //runApp(const CinetopiaApp());
   //runApp(MariBankApp());
   //runApp(BytebankApp());
-  //runApp(const TodoListGamification());
-  {
-    bool isLogged = await verifyToken();
-    runApp(NoteDiaryApp(
-      isLogged: isLogged,
-    ));
 
-    //JournalService journalService = JournalService();
-    //journalService.register(Journal.empty());
-    //journalService.getAll();
-  }
+  //runApp(const TodoListGamification());
+
+  // {
+  //   bool isLogged = await verifyToken();
+  //   runApp(NoteDiaryApp(
+  //     isLogged: isLogged,
+  //   ));
+  // JournalService journalService = JournalService();
+  // journalService.register(Journal.empty());
+  // journalService.getAll();
+  //}
 }
 
 Future<bool> verifyToken() async {
