@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:primeiro_app_flutter/06_bytebank/database/app_database.dart';
 import 'package:primeiro_app_flutter/06_bytebank/models/contact.dart';
 import 'package:primeiro_app_flutter/07_notas_diarias/models/journal.dart';
@@ -14,6 +15,8 @@ import '07_notas_diarias/service/journal_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   //runApp(BytebankApp());
   runApp(const BancoDouroApp());
