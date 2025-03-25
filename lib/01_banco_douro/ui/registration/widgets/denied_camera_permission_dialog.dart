@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../_core/themes/colors.dart';
 
 Future<dynamic> showDeniedCameraPermissionDialog(BuildContext context) {
@@ -66,6 +67,7 @@ class _DeniedCameraPermissionDialog extends StatelessWidget {
   }
 
   _onConfirmClicked(BuildContext context) {
+    openAppSettings();
     Navigator.pop(context);
   }
 }

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:primeiro_app_flutter/01_banco_douro/ui/registration/registration_camera_preview_screen.dart';
+import 'package:primeiro_app_flutter/01_banco_douro/ui/registration/widgets/denied_camera_permission_dialog.dart';
+import 'package:primeiro_app_flutter/01_banco_douro/ui/registration/widgets/request_camera_permission_dialog.dart';
+import 'package:primeiro_app_flutter/01_banco_douro/utils/registration_capture_types.dart';
 import 'package:provider/provider.dart';
 import 'view_model/registration_viewmodel.dart';
 import 'widgets/form_field_widget.dart';
@@ -15,7 +20,7 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   String _selectedDocumentType = "CNH"; // Valor inicial do dropdown
-  CameraController? cameraController;
+
   Logger logger = Logger();
 
   @override
@@ -136,29 +141,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Column(
       spacing: 8,
       children: [
-        SizedBox(
+        Container(
+          width: 150,
           height: 200,
+          color: Colors.grey.shade200,
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 750),
-            child: (cameraController != null && cameraController!.value.isInitialized)
-                ? CameraPreview(cameraController!)
-                : Container(
-                    width: 150,
-                    height: 200,
-                    color: Colors.grey.shade200,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 750),
-                      child: (!isDocument && viewModel.imageSelfie != null)
-                          ? Image.memory(viewModel.imageSelfie!)
-                          : (isDocument && viewModel.imageDocument != null)
-                              ? Image.memory(viewModel.imageDocument!)
-                              : Icon(
-                                  icon,
-                                  size: 48,
-                                  color: Colors.grey.shade600,
-                                ),
-                    ),
-                  ),
+            child: (!isDocument && viewModel.imageSelfie != null)
+                ? Image.memory(viewModel.imageSelfie!)
+                : (isDocument && viewModel.imageDocument != null)
+                    ? Image.memory(viewModel.imageDocument!)
+                    : Icon(
+                        icon,
+                        size: 48,
+                        color: Colors.grey.shade600,
+                      ),
           ),
         ),
         Column(
@@ -183,24 +180,54 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }) async {
     List<CameraDescription> listCameras = await analyseCamerasAvailable();
 
-    cameraController = CameraController(listCameras[1], ResolutionPreset.medium,
-        enableAudio: false);
+    PermissionStatus cameraPermissionStatus = await Permission.camera.status;
 
-    //Inicia a câmera
-    if (cameraController != null) {
-      await cameraController!.initialize();
-      setState(() {
-
-      });
-    } else {
-      logger.e("Erro ao inicializar a camera", time: DateTime.now());
+    if (cameraPermissionStatus == PermissionStatus.denied) {
+      if (!context.mounted) return;
+      PermissionStatus? newStatus = await showRequestCameraPermissionDialog(
+          context); //Dialog criado para o projeto
+      if (newStatus != null) {
+        cameraPermissionStatus = newStatus;
+      }
     }
+    if (cameraPermissionStatus != PermissionStatus.denied &&
+        cameraPermissionStatus != PermissionStatus.permanentlyDenied) {
+      if (!context.mounted) return;
 
+      RegistrationCaptureTypes captureType = RegistrationCaptureTypes.selfie;
+      int indexCameraDescription = listCameras.indexWhere(
+              (element)=> element.lensDirection == CameraLensDirection.front);
 
-    if (isDocument) {
-      // TODO: Abrir câmera para fotografar documento
-    } else {
-      // TODO: Abrir câmera para fotografar selfie
+      if (isDocument) {
+        if (_selectedDocumentType == "CNH") {
+          logger.e("E documento e CNH !!!");
+         setState(() {
+           captureType = RegistrationCaptureTypes.cnh;
+         });
+
+        }
+        if (_selectedDocumentType == "RG") {
+          setState(() {
+            captureType = RegistrationCaptureTypes.rg;
+          });
+
+        }
+        indexCameraDescription = listCameras.indexWhere(
+                (element)=> element.lensDirection == CameraLensDirection.back);
+      }
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RegistrationCameraPreviewScreen(
+            cameraDescription: listCameras[indexCameraDescription],//listCameras[1],
+            captureTypes: captureType,
+          ),
+        ),
+      );
+    } else if (cameraPermissionStatus == PermissionStatus.permanentlyDenied) {
+      if (!context.mounted) return;
+      await showDeniedCameraPermissionDialog(context);
     }
   }
 
