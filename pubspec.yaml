@@ -75,7 +75,8 @@ flutter:
     - assets/images/bancodouro/stars.png
     - assets/images/bancodouro/credit_card.png
     - assets/images/bancodouro/lotties/
-    - assets/images/bancodouro/guides/
+    - assets/images/bancodouro/guides/guide_cnh.png
+    - assets/images/bancodouro/guides/guide_selfie.png
 
     - assets/images/cinetopia/logo.png
     - assets/images/cinetopia/movie.png
